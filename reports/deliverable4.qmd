@@ -26,8 +26,10 @@ This database is needed because mass shootings occur in such a high frequency ac
 The user base for a database like this would primarily be for the general public, in hopes of spreading awareness of the scale of this issue in the United States. It could also be used by professionals or researchers that are looking to study patterns or simply need statistics pertaining to mass shootings. A further reach is that it could potentially be used by developers to create a predictive model for mass shootings. The general perspective of this database would be for anyone that wants to access and filter data related to mass-shootings, for any reason whether personal or professional.
 
 ### User roles and use cases
+The general public seeks reliable information on mass shootings to stay informed about the issue and understand its severity. They will use the database to access statistics and search for information on specific incidents, locations, or trends. Law enforcement agencies and policymakers require data-driven insights to formulate and evaluate policies related to gun control, mental health, and public safety. They will monitor trends to inform their policy decisions, using the database for risk assessment and identifying areas in need of policy intervention. Additionally, the database can be seamlessly integrated into various external systems, including news outlets, public awareness campaigns, predictive models, and research institutions.
 
 ### Security and Privacy
+Security and privacy are top priorities in the database design. User authentication will be enforced for specific data access, while encryption will protect data during transmission and storage. Access controls will limit data access to authorized users, ensuring the integrity of the database and safeguarding sensitive information. This will make sure that we can prevent unauthorized users from modifying or deleting information. Regular audits and updates will maintain these security and privacy measures.
 
 ## Database Design
 
