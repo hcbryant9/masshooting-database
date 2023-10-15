@@ -8,9 +8,9 @@ The Mass Shootings Database is a comprehensive database that contains informatio
 
 ## Project Components
 
-- [Pitch Video](https://cdnapisec.kaltura.com/index.php/extwidget/preview/partner_id/1888231/uiconf_id/28242191/entry_id/1_w2ohbtju/embed/dynamic){target="_blank"}
-- [Design Video](https://www.google.com){target="_blank"}
-- [Project Github](https://github.com/cmsc-vcu/cmsc508-fa2023-prj-massshootingdb-group15){target="_blank"}
+- [Pitch Video](https://cdnapisec.kaltura.com/index.php/extwidget/preview/partner_id/1888231/uiconf_id/28242191/entry_id/1_w2ohbtju/embed/dynamic)
+- [Design Video](https://www.google.com)
+- [Project Github](https://github.com/cmsc-vcu/cmsc508-fa2023-prj-massshootingdb-group15)
 
 ## Getting Started
 
