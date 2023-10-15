@@ -304,6 +304,16 @@ $|Incident|$
 
 : **Incident_Perpetrator Table Sample Data** {.striped .hover .bordered}
 
+| weapon_id | type                | description                      |
+|-----------|---------------------|----------------------------------|
+| 1         | Handgun             | Semi-automatic pistol            |
+| 2         | Rifle               | AR-15 style semi-automatic rifle |
+| 3         | Handgun             | 9mm pistol                       |
+| 4         | Unknown             | Type and details unknown         |
+| 5         | Handgun             | Glock 19 semi-automatic pistol   |
+
+: **Weapon Table Sample Data** {.striped .hover .bordered}
+
 ## Project Management
 
 
