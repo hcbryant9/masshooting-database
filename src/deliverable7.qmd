@@ -1,0 +1,340 @@
+---
+title: CMSC508 - Deliverable 4 - Database Design
+author: Alex Lutterloah & Henry Bryant
+date: last-modified
+format:
+    html:
+        toc: true
+        embed-resources: true
+---
+
+## Overview and Deliverables
+Each year there are hundreds of mass shootings across the United States. The goal of this Mass Shooting database is to provide reliable information to the public for awareness, and to professionals that may be able to use the data to aid in mass shooting prevention, and assist with working towards a solution to lower the amount of shootings each year. This database can be filtered to show results that will help show trends and patterns based on various items related to mass shooting events, such as weapon type, location, victim information, and more.
+
+- [Pitch Video](https://cdnapisec.kaltura.com/index.php/extwidget/preview/partner_id/1888231/uiconf_id/28242191/entry_id/1_w2ohbtju/embed/dynamic){target="_blank"}
+- [Design Video](https://vcu.zoom.us/rec/play/ve8z-iZ-EupsxRGmApWAUnoMX-NNneGpkxKNO3MJcLZObA71x5EPq23J7oOwL1rhWZpbNyjOouHUDi99.ht66FxE-iDqHe8BT?canPlayFromShare=true&from=share_recording_detail&startTime=1697497455000&componentName=rec-play&originRequestUrl=https%3A%2F%2Fvcu.zoom.us%2Frec%2Fshare%2Fa9qUbpoj2cEf6BzZW-elMRA_1eAUyI3sfD5XqDQvqZeecMHKAOtpIPl3L4s-FnYU.bQ5lnj9uYqJ46DRv%3FstartTime%3D1697497455000){target="_blank"}
+- [Project Github](https://github.com/cmsc-vcu/cmsc508-fa2023-prj-massshootingdb-group15){target="_blank"}
+
+## Problem Description
+
+### Problem Domain
+The problem domain is the amount of mass shootings that occur across the United States every year. A mass shooting as defined by the Federal Bureau of Investigation (FBI) is considered an event where one or more individuals are "actively engaged in killing or attempting to kill people in a populated area." Additionally, the motivation behind the attack must not correlate with gang violence, or terrorist activity. Last year alone for example, there were over 600 cases of mass shootings, and according to [Rockefeller Institute of Government](https://rockinst.org/gun-violence/mass-shooting-factsheet/){target="_blank"} there have been 1569 deaths, and 3923 total victims from mass shootings in the United States since 1966. A lot of these tragic events happen so frequently that a lot of the data behind the shooting becomes hard to access. The lack of clear and filterable data prevents our ability to successfully work on a solution to prevent mass shootings. 
+
+### Need
+This database is needed because mass shootings occur in such a high frequency across the nation that many cases and incidents are not known to the general public. Our database would assist with shedding light on all mass shootings, which helps display the severity of mass shootings in the United States. Having a non-biased source of mass shooting information may help with the spreading of misinformation pertaining to the incidents. We can also try to use previous mass shootings' data to help predict where others may occur. For example, a big issue is screening gun purchasers - this database could help identify patterns in mass shooters background information, and then we could use that information to implement a solution to minimize the chance of the wrong person having access to legally purchase a weapon.
+
+### Context, scope and perspective
+The user base for a database like this would primarily be for the general public, in hopes of spreading awareness of the scale of this issue in the United States. It could also be used by professionals or researchers that are looking to study patterns or simply need statistics pertaining to mass shootings. A further reach is that it could potentially be used by developers to create a predictive model for mass shootings. The general perspective of this database would be for anyone that wants to access and filter data related to mass-shootings, for any reason whether personal or professional.
+
+### User roles and use cases
+The general public seeks reliable information on mass shootings to stay informed about the issue and understand its severity. They will use the database to access statistics and search for information on specific incidents, locations, or trends. Law enforcement agencies and policymakers require data-driven insights to formulate and evaluate policies related to gun control, mental health, and public safety. They will monitor trends to inform their policy decisions, using the database for risk assessment and identifying areas in need of policy intervention. Additionally, the database can be seamlessly integrated into various external systems, including news outlets, public awareness campaigns, predictive models, and research institutions.
+
+### Security and Privacy
+Security and privacy are top priorities in the database design. User authentication will be enforced for specific data access, while encryption will protect data during transmission and storage. Access controls will limit data access to authorized users, ensuring the integrity of the database and safeguarding sensitive information. This will make sure that we can prevent unauthorized users from modifying or deleting information. Regular audits and updates will maintain these security and privacy measures.
+
+## Database Design
+
+### Entity-relationship diagram (ERD)
+
+#### High-level Entity Design
+```{mermaid}
+erDiagram
+
+  INCIDENT }|--|| INCIDENT_VICTIM : has
+  INCIDENT_VICTIM ||--|{ VICTIM : has
+  INCIDENT }|--|| INCIDENT_PERPETRATOR : has
+  INCIDENT_PERPETRATOR ||--|{ PERPETRATOR : has
+  PERPETRATOR ||--|{ WEAPON : uses
+
+```
+
+#### Entity and Attribute Design
+```{mermaid}
+erDiagram
+
+  INCIDENT }|--|| INCIDENT_VICTIM : has
+  INCIDENT_VICTIM ||--|{ VICTIM : has
+  INCIDENT }|--|| INCIDENT_PERPETRATOR : has
+  INCIDENT_PERPETRATOR ||--|{ PERPETRATOR : has
+  PERPETRATOR ||--|{ WEAPON : uses
+
+    INCIDENT{
+        int incident_id PK
+        date date
+        string city
+        string state_code
+        string description
+        string motive
+    }
+    VICTIM{
+        int victim_id PK
+        string name
+        int age
+        string sex
+        string status
+    }
+    PERPETRATOR{
+        int perpetrator_id PK
+        string name
+        int age
+        string sex
+        string criminal_bg_description
+    }
+    WEAPON{
+        int perpetrator_id PK
+        int weapon_id PK
+        string type
+        string description
+    }
+    INCIDENT_VICTIM{
+        int incident_id PK
+        int victim_id PK
+    }
+    INCIDENT_PERPETRATOR{
+        int incident_id PK
+        int perpetrator_id PK
+    }
+
+```
+
+### Relational Schemas
+
+| Data Type | Attribute        | Domain                       |
+|-----------|------------------|------------------------------|
+| int       | incident_id (PK) | Positive integer             |
+| date      | date             | Date values                  |
+| string    | city             | Name of city                 |
+| string    | state_code       | State abbreviation code      |
+| string    | description      | Description of the incident  |
+| string    | motive           | Potential motives            |
+
+:  **Incident Table** {tbl-colwidths="[20,35,45]".striped .hover .bordered}
+
+*Constraints: Date, Location, and Description should not be NULL. State_code will be constrained to the 50 current state codes in the US.*
+
+| Data Type | Attribute        | Domain                       |
+|-----------|------------------|------------------------------|
+| int       | victim_id (PK)   | Positive integer             |
+| string    | name             | Victim names                 |
+| int       | age              | Non-negative integer         |
+| string    | sex              | Male/Female                  |
+| string    | status           | Injured, Deceased            |
+
+:  **Victim Table** {tbl-colwidths="[20,35,45]".striped .hover .bordered}
+
+*Constraints: Status should not be NULL. Sex will be constrained to "male" or "female." Status will be constrained to "Injured" or "Deceased."*
+
+| Data Type | Attribute        | Domain                       |
+|-----------|------------------|------------------------------|
+| int       | incident_id (PK) | Positive integer             |
+| int       | victim_id (PK)   | Positive integer             |
+
+:  **Incident_Victim Table** {tbl-colwidths="[20,35,45]".striped .hover .bordered}
+
+| Data Type | Attribute                       | Domain                             |
+|-----------|---------------------------------|------------------------------------|
+| int       | perpetrator_id (PK)             | Positive integer                   |
+| string    | name                            | Perpetrator name                   |
+| int       | age                             | Non-negative integer               |
+| string    | sex                             | Male/Female                        |
+| string    | criminal_bg_description         | Description of criminal background |
+
+:  **Perpetrator Table** {tbl-colwidths="[20,35,45]".striped .hover .bordered}
+
+*Constraints: Motive should not be NULL. Sex will be constrained to "male" or "female."*
+
+| Data Type | Attribute             | Domain                       |
+|-----------|-----------------------|------------------------------|
+| int       | incident_id (PK)      | Positive integer             |
+| int       | perpetrator_id (PK)   | Positive integer             |
+
+:  **Incident_Perpetrator Table** {tbl-colwidths="[20,35,45]".striped .hover .bordered}
+
+| Data Type | Attribute           | Domain                          |
+|-----------|---------------------|---------------------------------|
+| int       | perpetrator_id (PK) | Positive integer                |
+| int       | weapon_id (PK)      | Positive integer                |
+| string    | type                | Type of weapon                  |
+| string    | description         | Description of the weapon       |
+
+:  **Weapon Table** {tbl-colwidths="[20,35,45]".striped .hover .bordered}
+
+*Constraints: Type and description should not be NULL. Type will be further constrained to one of these values: "Rifle", "Handgun", "Shotgun", "Explosive", "Melee", "Other"*
+
+### Functional Dependencies and Normalization
+
+In this normalization process, we ensured that each relation is in BCNF by making sure that non-prime attributes are functionally dependent on the primary key. Further normalization to 4NF would involve considering multi-valued dependencies, but from the provided schema, it seems that BCNF is sufficient.
+
+The goal of normalization is to eliminate data redundancy and maintain data integrity, and this process should ensure that the database schema adheres to these principles while being lossless.
+
+To resolve to many-to-many relationship between incidents to victims and incidents to perpetrators, we decided to create an intermediate entity with composite keys to include the key from incident, and the victim/perpetrator key. This is because there could be multiple victims per incident, and one victim could be involved with multiple incidents. The same goes for perpetrators, multiple involved in one incident, and one incident could have multiple perpetrators.
+
+### Specific Queries
+
+1. Retrieve all incident details.
+
+$\pi_{incident\_id, date, city, state\_code, description, motive}(Incident)$
+
+2. List the names and ages of all victims.
+
+$\pi_{name, age}(Victim)$
+
+3. Find the incidents where the motive is "Robbery".
+
+$\sigma_{motive = 'Robbery'}(Incident)$
+
+4. Get the names of male victims.
+
+$\pi_{name}(\sigma_{sex = 'Male'}(Victim))$
+
+5. Retrieve all incidents in California (CA).
+
+$\sigma_{state\_code = 'CA'}(Incident)$
+
+6. List the incidents in New York (NY) with their descriptions.
+
+$\pi_{incident\_id, description}(\sigma_{state\_code = 'NY'}(Incident))$
+
+7. Find the total number of victims in the database.
+
+$γ_{count(*) \rightarrow TotalVictims}(Victim)$
+
+8. Retrieve the names and ages of victims who are deceased.
+
+$\pi_{name, age}(\sigma_{status = 'Deceased'}(Victim))$
+
+9. Find the incidents with victims who are injured.
+
+$\pi_{incident\_id}(\sigma_{status = 'Injured'}(Victim))$
+
+10. Get the names of female victims who are under the age of 18.
+
+$\pi_{name}(\sigma_{sex = 'Female' \land age < 18}(Victim))$
+
+11. List the types and descriptions of all weapons.
+
+$\pi_{type, description}(Weapon)$
+
+12. Retrieve the incidents with male perpetrators.
+
+$\pi_{incident\_id}(\sigma_{sex = 'Male'}(Perpetrator))$
+
+13. Find the incidents where the motive is 'Gang-related'.
+
+$\sigma_{motive = 'Gang-related'}(Incident)$
+
+14. Get the names and ages of perpetrators with known criminal backgrounds.
+
+$\pi_{name, age}(\sigma_{criminal\_bg\_description \neq NULL}(Perpetrator))$
+
+15. Retrieve the number of victims in each incident.
+
+$\rho_{count\_victims/incident\_id}(\gamma_{incident\_id, count(victim\_id)}(Incident\_Victim), count\_victims/incident\_id)$
+
+16. List the names and descriptions of all weapons.
+
+$\pi_{Weapon.type, Weapon.description}(\gamma_{Weapon.type, Weapon.description}(Weapon))$
+
+17. Find the incidents where a handgun was used.
+
+$\pi_{incident\_id}(\sigma_{type = 'Handgun'}(Weapon))$
+
+18. Retrieve the ages and motives of perpetrators.
+
+$\pi_{age, motive}(Perpetrator)$
+
+19. Get the incident IDs with female victims who are injured.
+
+$\pi_{incident\_id}(\sigma_{sex = 'Female' \land status = 'Injured'}(Victim))$
+
+20. Find the total number of incidents in the database.
+
+$γ_{count(*) \rightarrow TotalIncidents}(Incident)$
+
+
+### Sample Data
+
+| incident_id | date       | city         | state_code | description                        | motive               |
+|-------------|------------|--------------|------------|------------------------------------|----------------------|
+| 1           | 2023-05-01 | New York     | NY         | Shooting at Central Park           | Robbery              |
+| 2           | 2023-06-15 | Los Angeles  | CA         | School Shooting at Oakridge High   | Revenge              |
+| 3           | 2023-07-20 | Chicago      | IL         | Workplace Shooting at TechCorp     | Disgruntled Employee |
+| 4           | 2023-08-10 | Miami        | FL         | Mall Shooting at Westfield Mall    | Unknown              |
+| 5           | 2023-09-05 | Houston      | TX         | Nightclub Shooting at Eclipse Club | Gang-related         |
+
+: **Incident Table Sample Data** {.striped .hover .bordered}
+
+| victim_id | name         | age | sex    | status    |
+|-----------|--------------|-----|--------|-----------|
+| 1         | John Doe     | 35  | Male   | Injured   |
+| 2         | Jane Smith   | 28  | Female | Deceased  |
+| 3         | Mark Johnson | 16  | Male   | Injured   |
+| 4         | Sarah Brown  | 17  | Female | Injured   |
+| 5         | Robert White | 42  | Male   | Injured   |
+
+: **Victim Table Sample Data** {.striped .hover .bordered}
+
+| incident_id | victim_id |
+|-------------|-----------|
+| 1           | 1         |
+| 1           | 2         |
+| 2           | 3         |
+| 2           | 4         |
+| 3           | 5         |
+
+: **Incident_Victim Table Sample Data** {.striped .hover .bordered}
+
+| perpetrator_id | name             | age | sex     | criminal_bg_description                   |
+|----------------|------------------|-----|---------|-------------------------------------------|
+| 1              | John Smith       | 30  | Male    | Previous convictions for armed robbery    |
+| 2              | Alex Johnson     | 18  | Male    | No prior criminal record                  |
+| 3              | Sarah Williams   | 40  | Female  | Fired from TechCorp prior to the incident |
+| 4              | Unknown          | 23  | Unknown | No information available                  |
+| 5              | Carlos Rodriguez | 27  | Male    | Known gang affiliation                    |
+ 
+: **Perpetrator Table Sample Data** {.striped .hover .bordered}
+
+| incident_id | perpetrator_id |
+|-------------|----------------|
+| 1           | 1              |
+| 2           | 2              |
+| 3           | 3              |
+| 4           | 4              |
+| 5           | 5              |
+
+: **Incident_Perpetrator Table Sample Data** {.striped .hover .bordered}
+
+| weapon_id | type                | description                      |
+|-----------|---------------------|----------------------------------|
+| 1         | Handgun             | Semi-automatic pistol            |
+| 2         | Rifle               | AR-15 style semi-automatic rifle |
+| 3         | Handgun             | 9mm pistol                       |
+| 4         | Unknown             | Type and details unknown         |
+| 5         | Handgun             | Glock 19 semi-automatic pistol   |
+
+: **Weapon Table Sample Data** {.striped .hover .bordered}
+
+## Project Management
+
+### Project Schedule
+
+```{mermaid}
+gantt
+  dateFormat  YYYY-MM-DD
+  title Project Schedule
+
+  section Task List
+  Documentation             :done, des6,2023-10-15, 2023-12-12
+  Database Implementation   :done, des1, 2023-10-15, 2023-11-17
+  Data Import               :done, des2, 2023-10-15, 2023-11-17
+  Data Validation and Testing :done, des3, 2023-10-15, 2023-11-17
+  Query Development         :done, des4, 2023-11-10, 2023-12-01
+  User Interface            :done, des5, 2023-11-10, 2023-12-01
+
+  User Training             :done, des7, 2023-11-19, 2023-12-01
+  Performance Tuning        :done, des8, 2023-11-19, 2023-12-01
+  Final Review and Validation :done, des9, 2023-11-19, 2023-12-12
+  Project Report            :done, des10, 2023-11-19, 2023-12-12
+  Demonstration :done, des11, 2023-12-01, 2023-12-12
+
+```
