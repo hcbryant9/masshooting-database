@@ -92,44 +92,115 @@ You can see the DDL here
 [DDL file on Github](https://github.com/cmsc-vcu/cmsc508-fa2023-prj-massshootingdb-group15/blob/b9b8472d38c80e85a0c347c54a125b708ca58d0c/src/db-ddl.sql){target="_blank"}
 
 ## API Overview
-This API can be used to query our United States Mass Shooting Database. Below are instructions on how to use the API, as well as some examples of the API in action.
+This API can be used to query our United States Mass Shooting Database. Below are instructions on how to use the API, as well as some examples of the API in action.\
+View the source code for this API at the link below.\
+[sever.py on Github](https://github.com/cmsc-vcu/cmsc508-fa2023-prj-massshootingdb-group15/blob/7b12b2ba3b846d86c61b85b19077b5026ab60e95/src/server.py){target="_blank"}
 
 ### API Documentation
 **How to use the API**
-```
-The root URL will query the database to show all of the tables.
-http://127.0.0.1:5000/
 
-For the following API queries, the valid tables include:
+*The root URL will query the database to show all of the tables.*\
+```http://127.0.0.1:5000/```
+
+For the following API queries, the valid tables include:\
 'incident', 'perpetrator', 'victim', and 'weapon.'
 
-Get all records of a specified table.
-http://127.0.0.1:5000/<table name>
+*Get all records of a specified table.*\
+```http://127.0.0.1:5000/<table name>```
 
-Get a specific record from a specific table.
-http://127.0.0.1:5000/<table name>/<id>
+*Get a specific record from a specific table.*\
+```http://127.0.0.1:5000/<table name>/<id>```
 
-Get all perpetrators of a specified incident.
-http://127.0.0.1:5000/incident/<id>/perpetrators
+*Get all perpetrators of a specified incident.*\
+```http://127.0.0.1:5000/incident/<id>/perpetrators```
 
-Get all victims of a specified incident.
-http://127.0.0.1:5000/incident/<id>/victims
+*Get all victims of a specified incident.*\
+```http://127.0.0.1:5000/incident/<id>/victims```
 
-Get all weapons of a specified perpetrator.
-http://127.0.0.1:5000/perpetrator/<id>/weapons
+*Get all weapons of a specified perpetrator.*\
+```http://127.0.0.1:5000/perpetrator/<id>/weapons```
 
-Add an incident to the Database (via POST request sending JSON)
-http://127.0.0.1:5000/incident/add
+*Add an incident to the Database (via POST request sending JSON)*\
+```http://127.0.0.1:5000/incident/add```
 
-Update a specified incident in the Database (via POST request sending JSON)
-http://127.0.0.1:5000/incident/update/<id>
+*Update a specified incident in the Database (via POST request sending JSON)*\
+```http://127.0.0.1:5000/incident/update/<id>```
 
-Delete a specific record from a specific table.
-http://127.0.0.1:5000/<table name>/remove/<id>
-```
+*Delete a specific record from a specific table.*\
+```http://127.0.0.1:5000/<table name>/remove/<id>```
+
 
 ### API Demonstration
 Somehow, you need to demonstrate how the API works, and that the API actually works. I leave this one to you. (You may want to refer to homework assignment 8.)
+```{python}
+#| eval: true
+#| echo: false
+import os
+import requests
+from IPython.display import display,Markdown,HTML
+
+# Data for the new incident
+add_incident = {
+    'date': '2021-05-20',
+    'city': 'Baltimore',
+    'state_code': 'MD',
+    'description': 'Church attack',
+    'motive': 'Relgious beliefs'
+}
+
+# Data to use for updating an incident
+update_incident = {
+    'date': '2016-06-12',
+    'city': 'Orlando',
+    'state_code': 'FL',
+    'description': 'Nightclub shooting',
+    'motive': 'Hate Crime'
+}
+```
+
+#### API Get Example
+```{python}
+#| eval: true
+#| echo: false
+#| 
+
+# API call with query parameters
+response = requests.get('http://127.0.0.1:5000/incident/add').json()
+print(response)
+```
+
+#### API Insert Example
+```{python}
+#| eval: true
+#| echo: false
+#| 
+# Send a POST request to add the incident
+#response = requests.post('http://127.0.0.1:5000/incident/add', json=new_incident)
+# API call with query parameters
+#response = requests.get('https://rickandmortyapi.com/api/character/1,2,3,4,5').json()
+```
+
+#### API Update Example
+```{python}
+#| eval: true
+#| echo: false
+#| 
+# Send a POST request to add the incident
+#response = requests.post('http://127.0.0.1:5000/incident/add', json=new_incident)
+# API call with query parameters
+#response = requests.get('https://rickandmortyapi.com/api/character/1,2,3,4,5').json()
+```
+
+#### API Delete Example
+```{python}
+#| eval: true
+#| echo: false
+#| 
+# Send a POST request to add the incident
+#response = requests.post('http://127.0.0.1:5000/incident/add', json=new_incident)
+# API call with query parameters
+#response = requests.get('https://rickandmortyapi.com/api/character/1,2,3,4,5').json()
+```
 
 ## Considerations and Reflections
 

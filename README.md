@@ -13,10 +13,15 @@ The Mass Shootings Database is a comprehensive database that contains informatio
 -   [Final Reflections Video]()
 -   [Project Github](https://github.com/cmsc-vcu/cmsc508-fa2023-prj-massshootingdb-group15)
 
-## Getting Started
+## Contents and Getting Started
 
-To view our documentation, navigate to the reports directory and download/run the deliverable7.html.
-To access the HTML document and explore the database, simply follow the link provided above.
+### reports - 
+In the reports folder, you'll find the QMD and HTML files for deliverables 4 and 7. Run either HTML file in your browser to view the report.
+
+### src -
+In the src folder, you'll find server.py which is the python code that creates a local server to interact with deliverable7.qmd client-side python code.
+db-ddl.sql contains the SQL code needed to create and populate our database.
+poetry.lock and pyproject.toml are Poetry files to manage the dependencies needed for the python program.
 
 ## Additional Resources
 

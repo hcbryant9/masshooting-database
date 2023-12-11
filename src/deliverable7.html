@@ -3440,35 +3440,26 @@ z-index: 1000;
 <section id="api-documentation" class="level3">
 <h3 class="anchored" data-anchor-id="api-documentation">API Documentation</h3>
 <p><strong>How to use the API</strong></p>
-<pre><code>The root URL will query the database to show all of the tables.
-http://127.0.0.1:5000/
-
-For the following API queries, the valid tables include:
-&#39;incident&#39;, &#39;perpetrator&#39;, &#39;victim&#39;, and &#39;weapon.&#39;
-
-Get all records of a specified table.
-http://127.0.0.1:5000/&lt;table name&gt;
-
-Get a specific record from a specific table.
-http://127.0.0.1:5000/&lt;table name&gt;/&lt;id&gt;
-
-Get all perpetrators of a specified incident.
-http://127.0.0.1:5000/incident/&lt;id&gt;/perpetrators
-
-Get all victims of a specified incident.
-http://127.0.0.1:5000/incident/&lt;id&gt;/victims
-
-Get all weapons of a specified perpetrator.
-http://127.0.0.1:5000/perpetrator/&lt;id&gt;/weapons
-
-Add an incident to the Database (via POST request sending JSON)
-http://127.0.0.1:5000/incident/add
-
-Update a specified incident in the Database (via POST request sending JSON)
-http://127.0.0.1:5000/incident/update/&lt;id&gt;
-
-Delete a specific record from a specific table.
-http://127.0.0.1:5000/&lt;table name&gt;/remove/&lt;id&gt;</code></pre>
+<p><em>The root URL will query the database to show all of the tables.</em><br>
+<code>http://127.0.0.1:5000/</code></p>
+<p>For the following API queries, the valid tables include:<br>
+‘incident’, ‘perpetrator’, ‘victim’, and ‘weapon.’</p>
+<p><em>Get all records of a specified table.</em><br>
+<code>http://127.0.0.1:5000/&lt;table name&gt;</code></p>
+<p><em>Get a specific record from a specific table.</em><br>
+<code>http://127.0.0.1:5000/&lt;table name&gt;/&lt;id&gt;</code></p>
+<p><em>Get all perpetrators of a specified incident.</em><br>
+<code>http://127.0.0.1:5000/incident/&lt;id&gt;/perpetrators</code></p>
+<p><em>Get all victims of a specified incident.</em><br>
+<code>http://127.0.0.1:5000/incident/&lt;id&gt;/victims</code></p>
+<p><em>Get all weapons of a specified perpetrator.</em><br>
+<code>http://127.0.0.1:5000/perpetrator/&lt;id&gt;/weapons</code></p>
+<p><em>Add an incident to the Database (via POST request sending JSON)</em><br>
+<code>http://127.0.0.1:5000/incident/add</code></p>
+<p><em>Update a specified incident in the Database (via POST request sending JSON)</em><br>
+<code>http://127.0.0.1:5000/incident/update/&lt;id&gt;</code></p>
+<p><em>Delete a specific record from a specific table.</em><br>
+<code>http://127.0.0.1:5000/&lt;table name&gt;/remove/&lt;id&gt;</code></p>
 </section>
 <section id="api-demonstration" class="level3">
 <h3 class="anchored" data-anchor-id="api-demonstration">API Demonstration</h3>
