@@ -60,7 +60,7 @@ app = Flask(__name__)
 # Create list of table names for error checking
 tableNames = ['incident', 'perpetrator', 'victim', 'weapon']
 
-# Define route
+# Route to show all tables in the database
 @app.route('/')
 def show_all_tables():
     # Create data frame to store query results
