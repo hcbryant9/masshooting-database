@@ -5,7 +5,7 @@ date: last-modified
 format:
     html:
         theme: cosmos
-        code-overflow: wrap
+        copy-code: true
         toc: true
         embed-resources: true
 ---
@@ -88,7 +88,7 @@ erDiagram
 ```
 
 ### Link to DDL
-You can see the DDL here
+You can see the DDL at the link below.\
 [DDL file on Github](https://github.com/cmsc-vcu/cmsc508-fa2023-prj-massshootingdb-group15/blob/b9b8472d38c80e85a0c347c54a125b708ca58d0c/src/db-ddl.sql){target="_blank"}
 
 ## API Overview
@@ -131,12 +131,12 @@ For the following API queries, the valid tables include:\
 
 
 ### API Demonstration
-Somehow, you need to demonstrate how the API works, and that the API actually works. I leave this one to you. (You may want to refer to homework assignment 8.)
 ```{python}
 #| eval: true
 #| echo: false
 import os
 import requests
+import pandas as pd
 from IPython.display import display,Markdown,HTML
 
 # Data for the new incident
@@ -156,17 +156,42 @@ update_incident = {
     'description': 'Nightclub shooting',
     'motive': 'Hate Crime'
 }
+
+# Authentication #
+
+# Create variables to store API key and base URL
+API_KEY = 'API_KEY'
+BASE_URL = 'http://127.0.0.1:5000'  
+
+# Sends a request to server to get an authentication token
+# def authenticate():
+#     endpoint = f"{BASE_URL}/auth"
+#     response = requests.post(endpoint, json={'api_key': API_KEY})
+
+#     if response.status_code == 200:
+#         return response.json().get('token')
+#     else:
+#         print("Authentication failed. Here is the api key: ", API_KEY)
+#         return None
+
+# Store the token that was retrieved from the authenticate function
+#token = authenticate()
+
+# Create a JSON header for future requests
+#headers = {'Authorization': token}
 ```
 
 #### API Get Example
 ```{python}
 #| eval: true
-#| echo: false
-#| 
+#| echo: true
 
 # API call with query parameters
-response = requests.get('http://127.0.0.1:5000/incident/add').json()
-print(response)
+#response = requests.get(f'{BASE_URL}/incident/1', headers=headers)
+response = requests.get(f'{BASE_URL}/incident/1')
+result = pd.read_json(response)
+
+print(result)
 ```
 
 #### API Insert Example
