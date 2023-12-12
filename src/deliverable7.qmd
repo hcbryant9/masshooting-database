@@ -6,6 +6,8 @@ format:
     html:
         theme: cosmos
         copy-code: true
+        code-fold: true
+        code-overflow: scroll
         toc: true
         embed-resources: true
 ---
@@ -136,8 +138,154 @@ For the following API queries, the valid tables include:\
 #| echo: false
 import os
 import requests
+import json
 import pandas as pd
 from IPython.display import display,Markdown,HTML
+
+# Authentication #
+# Create variables to store API key and base URL
+API_KEY = 'API_KEY'
+BASE_URL = 'http://127.0.0.1:5000'  
+
+# Sends a request to server to get an authentication token
+def authenticate():
+    endpoint = f"{BASE_URL}/auth"
+    response = requests.post(endpoint, json={'api_key': API_KEY})
+
+    if response.status_code == 200:
+        return response.json().get('token')
+    else:
+        print("Authentication failed. Here is the api key: ", API_KEY)
+        return None
+
+# Store the token that was retrieved from the authenticate function
+token = authenticate()
+
+# Create a JSON header for future requests
+headers = {'Authorization': token}
+```
+
+#### API Get Example
+
+**Get the incident table**
+```{python}
+#| eval: true
+#| echo: true
+
+# Function to print the incident table
+def printIncidentTable():
+    # Make API call based off endpoint
+    endpoint = f'{BASE_URL}/incident'
+    response = requests.get(endpoint)
+
+    # Conver to JSON and then to DataFrame
+    data = response.json()
+    load = json.loads(data)
+    df = pd.DataFrame(load)
+
+    # Convert the date values from MS to a readable  date format
+    df['date'] = pd.to_datetime(df['date'], unit='ms')
+
+    # Print the result
+    print(df.to_string(index=False))
+
+# Call function
+printIncidentTable()
+```
+
+**Get record with id = 10 from the incident table**
+```{python}
+#| eval: true
+#| echo: true
+
+# Function to print incident table record with a specific id
+def printIncidentRecord(id):
+    # Make API call based off endpoint
+    endpoint = f'{BASE_URL}/incident/{id}'
+    response = requests.get(endpoint)
+
+    # Conver to JSON and then to DataFrame
+    data = response.json()
+    load = json.loads(data)
+    df = pd.DataFrame(load)
+
+    # Convert the date values from MS to a readable  date format
+    df['date'] = pd.to_datetime(df['date'], unit='ms')
+
+    # Print the result
+    print(df.to_string(index=False))
+
+# Call function
+printIncidentRecord(10)
+```
+
+**Get perpetrator/s from incident 5**
+```{python}
+#| eval: true
+#| echo: true
+
+# Make API call based off endpoint
+endpoint = f'{BASE_URL}/incident/5/perpetrators'
+response = requests.get(endpoint)
+
+# Conver to JSON and then to DataFrame
+data = response.json()
+load = json.loads(data)
+df = pd.DataFrame(load)
+
+# Print the result
+print(df.to_string(index=False))
+```
+
+**Get victims/s from incident 9**
+```{python}
+#| eval: true
+#| echo: true
+
+# Make API call based off endpoint
+endpoint = f'{BASE_URL}/incident/9/victims'
+response = requests.get(endpoint)
+
+# Conver to JSON and then to DataFrame
+data = response.json()
+load = json.loads(data)
+df = pd.DataFrame(load)
+
+# Print the result
+print(df.to_string(index=False))
+```
+
+**Get weapon/s used by perpetrator 10**
+```{python}
+#| eval: true
+#| echo: true
+
+# Make API call based off endpoint
+endpoint = f'{BASE_URL}/perpetrator/10/weapons'
+response = requests.get(endpoint)
+
+# Conver to JSON and then to DataFrame
+data = response.json()
+load = json.loads(data)
+df = pd.DataFrame(load)
+
+# Print the result
+print(df.to_string(index=False))
+```
+
+#### API Insert Example
+**Add an incident record to the incident table**\
+*Incident table before*\
+```{python}
+#| eval: true
+#| echo: false
+
+# Print incident table
+printIncidentTable()
+```
+```{python}
+#| eval: true
+#| echo: true
 
 # Data for the new incident
 add_incident = {
@@ -148,6 +296,34 @@ add_incident = {
     'motive': 'Relgious beliefs'
 }
 
+# Create variables and store base URL and store token
+endpoint = f'{BASE_URL}/incident/add'
+
+# Create header to send with request for authorization
+headers = {'Authorization': token}
+
+# Send a POST request to add the incident
+response = requests.post(endpoint, json=add_incident, headers=headers)
+```
+*Incident table after*\
+```{python}
+#| eval: true
+#| echo: false
+
+# Print incident table
+printIncidentTable()
+```
+
+#### API Update Example
+**Update incident 12 with new data**\
+*Incident 12 before*\
+```{python}
+#| eval: true
+#| echo: true
+
+# Print incident record
+printIncidentRecord(12)
+
 # Data to use for updating an incident
 update_incident = {
     'date': '2016-06-12',
@@ -156,81 +332,55 @@ update_incident = {
     'description': 'Nightclub shooting',
     'motive': 'Hate Crime'
 }
+# Create variables and store base URL and store token
+endpoint = f'{BASE_URL}/incident/update/12'
 
-# Authentication #
+# Create header to send with request for authorization
+headers = {'Authorization': token}
 
-# Create variables to store API key and base URL
-API_KEY = 'API_KEY'
-BASE_URL = 'http://127.0.0.1:5000'  
+# Send a POST request to update the specified incident
+response = requests.post(endpoint, json=update_incident, headers=headers)
+```
+*Incident table after*\
+```{python}
+#| eval: true
+#| echo: false
 
-# Sends a request to server to get an authentication token
-# def authenticate():
-#     endpoint = f"{BASE_URL}/auth"
-#     response = requests.post(endpoint, json={'api_key': API_KEY})
-
-#     if response.status_code == 200:
-#         return response.json().get('token')
-#     else:
-#         print("Authentication failed. Here is the api key: ", API_KEY)
-#         return None
-
-# Store the token that was retrieved from the authenticate function
-#token = authenticate()
-
-# Create a JSON header for future requests
-#headers = {'Authorization': token}
+# Print incident record
+printIncidentRecord(12)
 ```
 
-#### API Get Example
+#### API Delete Example
+**Delete record with id = 7 from the incident table**\
+*Incident table before*\
 ```{python}
 #| eval: true
 #| echo: true
 
-# API call with query parameters
-#response = requests.get(f'{BASE_URL}/incident/1', headers=headers)
-response = requests.get(f'{BASE_URL}/incident/1')
-result = pd.read_json(response)
+# Print incident table
+printIncidentTable()
 
-print(result)
+# Create variables and store base URL and store token
+endpoint = f'{BASE_URL}/incident/remove/8'
+
+# Create header to send with request for authorization
+headers = {'Authorization': token}
+
+# Make request and store response
+response = requests.get(endpoint, headers=headers)
 ```
-
-#### API Insert Example
+*Incident table after*\
 ```{python}
 #| eval: true
 #| echo: false
-#| 
-# Send a POST request to add the incident
-#response = requests.post('http://127.0.0.1:5000/incident/add', json=new_incident)
-# API call with query parameters
-#response = requests.get('https://rickandmortyapi.com/api/character/1,2,3,4,5').json()
-```
 
-#### API Update Example
-```{python}
-#| eval: true
-#| echo: false
-#| 
-# Send a POST request to add the incident
-#response = requests.post('http://127.0.0.1:5000/incident/add', json=new_incident)
-# API call with query parameters
-#response = requests.get('https://rickandmortyapi.com/api/character/1,2,3,4,5').json()
+# Print incident table
+printIncidentTable()
 ```
-
-#### API Delete Example
-```{python}
-#| eval: true
-#| echo: false
-#| 
-# Send a POST request to add the incident
-#response = requests.post('http://127.0.0.1:5000/incident/add', json=new_incident)
-# API call with query parameters
-#response = requests.get('https://rickandmortyapi.com/api/character/1,2,3,4,5').json()
-```
-
 ## Considerations and Reflections
 
 ### Future Considerations
-What needs to be done next to take your project to the next level? If you had more time, what would you do next?
+To take this project to the next level, creating some sort of graphical user interface to display data, as well as inserting/updating would be pretty cool. It would also be nice to use the data to make graphs, or any other way that could make patterns/trends more apparent. Additionally, the API could use some refinement, and with a better client-side platform, we think the API could greatly be improved for much easier data inserts and updates to the database. Another idea could be to automatically pull in incidents and data from other similar databases. We could even take it to the level of web scraping common news websites for keywords, and then automatically pull mass-shooting data into the database as the public hears about it in the news. There are endless ideas on where we could take this kind of project, but I think the most realistic next step would be to work on some sort of front end to display the data we're collecting.
 
 ### Reflections on project
-How did the project go? Did you achieve what you originally intended to build? If not, what kept you from achieving it?
+Overall the project went smoothly, we were able to achieve creating a mass shooting database, and an API to query the database and show results. We were able to check off all of the base level goals that we had for this project without having to sacrifice anything. In hindsight however, there were some things that could be changed knowing what we know now. For example, when we were thinking of the structure of our API, and how we would display the data - the way that our incident table is currently structured in the database, isn't very friendly for viewing all information relative to an incident, even with SQL JOINs. A solution to this problem could be something like creating a "person" table, where each person stores whether they're a victim or a perpetrator, rather than having separate victim/perpetrator tables, this would make it a bit easier to view. Additionally, adding an incident to the database isn't quite so simple - for example, to add an incident, victim, and perpetrator to the database (all of which would be required to make logical sense), you have to update 5 separate tables manually. Two of those tables are associative tables to handle the many-to-many relationship, which can get confusing since it's only composed of integer ID values. In conclusion, the project went well and we accomplished the tasks that we set out to do.

@@ -2,6 +2,7 @@
 import os
 import sys
 import pandas as pd
+import secrets
 from flask import Flask, jsonify, request
 from tabulate import tabulate
 from dotenv import load_dotenv
@@ -16,6 +17,8 @@ config_map = {
     'host':'CMSC508_HOST',
     'database':'GROUP15_DB_NAME'
 }
+
+
 
 # Load and store credentials
 load_dotenv()
@@ -59,6 +62,23 @@ app = Flask(__name__)
 
 # Create list of table names for error checking
 tableNames = ['incident', 'perpetrator', 'victim', 'weapon']
+
+# Store authorized tokens
+authorized_tokens = {}  
+# Store API KEY
+API_KEY = 'API_KEY'
+
+# Authentication route
+@app.route('/auth', methods=['POST'])
+def authenticate():
+    api_key = request.json.get('api_key')
+
+    if api_key == API_KEY:
+        token = secrets.token_hex(16)  # Generate a random token
+        authorized_tokens[token] = True
+        return jsonify({'token': token}), 200
+    else:
+        return jsonify({'error': 'Invalid API key', 'api_key': API_KEY}), 401
 
 # Route to show all tables in the database
 @app.route('/')
@@ -155,9 +175,15 @@ def get_weapons(id):
     result = df.to_json()
     return jsonify(result)
 
-# Route to add an incident to the database
+# Route to add an incident to the database with token authentication
 @app.route('/incident/add', methods=['POST'])
 def add_record():
+    # Checking that the token is provided and authenticated
+    token = request.headers.get('Authorization')
+
+    if token not in authorized_tokens or not authorized_tokens[token]:
+        return jsonify({'error': 'Unauthorized'}), 401
+
     # Get data from post request
     data = request.get_json()
     
@@ -178,12 +204,20 @@ def add_record():
     """
 
     # Run the query & return success message
+    # Assume you have a function like 'my_sql_statement' to execute SQL queries
+    # Replace this function with your database handling logic
     my_sql_statement(query)
     return jsonify({"message": "Incident Added"}), 201
 
 # Route to update the incident
 @app.route('/incident/update/<int:id>', methods=['POST'])
 def update_record(id):
+    # Checking that the token is provided and authenticated
+    token = request.headers.get('Authorization')
+
+    if token not in authorized_tokens or not authorized_tokens[token]:
+        return jsonify({'error': 'Unauthorized'}), 401
+
     # Get data from post request
     data = request.get_json()
     
@@ -212,6 +246,13 @@ def update_record(id):
 # Route to delete a specified record from a specified table
 @app.route('/<string:tableName>/remove/<int:id>')
 def remove_record(tableName,id):
+
+    # Checking that the token is provided and authenticated
+    token = request.headers.get('Authorization')
+
+    if token not in authorized_tokens or not authorized_tokens[token]:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
     # Check to make sure table name exists
     if tableName in tableNames:
         # Run query and return success message
