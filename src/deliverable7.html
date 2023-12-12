@@ -3377,7 +3377,7 @@ z-index: 1000;
 <ul>
 <li><a href="https://cdnapisec.kaltura.com/index.php/extwidget/preview/partner_id/1888231/uiconf_id/28242191/entry_id/1_w2ohbtju/embed/dynamic" target="_blank">Pitch Video</a></li>
 <li><a href="https://vcu.zoom.us/rec/play/ve8z-iZ-EupsxRGmApWAUnoMX-NNneGpkxKNO3MJcLZObA71x5EPq23J7oOwL1rhWZpbNyjOouHUDi99.ht66FxE-iDqHe8BT?canPlayFromShare=true&amp;from=share_recording_detail&amp;startTime=1697497455000&amp;componentName=rec-play&amp;originRequestUrl=https%3A%2F%2Fvcu.zoom.us%2Frec%2Fshare%2Fa9qUbpoj2cEf6BzZW-elMRA_1eAUyI3sfD5XqDQvqZeecMHKAOtpIPl3L4s-FnYU.bQ5lnj9uYqJ46DRv%3FstartTime%3D1697497455000" target="_blank">Design Video</a></li>
-<li><a href target="_blank">Final Reflections Video</a></li>
+<li><a href="https://drive.google.com/file/d/1pQdAHtN4nBfFXiXo0yuJfwejii0w0pyC/view?usp=sharing" target="_blank">Final Reflections Video</a></li>
 <li><a href="https://github.com/cmsc-vcu/cmsc508-fa2023-prj-massshootingdb-group15" target="_blank">Project Github</a></li>
 </ul>
 </section>
@@ -3534,10 +3534,12 @@ View the source code for this API at the link below.<br>
            4 2023-04-05         Miami         FL         Nightclub shooting                  None
            5 2023-05-20        Denver         CO              Park incident      Domestic dispute
            6 2023-06-12       Seattle         WA  Community center shooting             Terrorism
+           7 2023-07-04       Orlando         FL           Concert shooting                  None
+           8 2023-08-18       Atlanta         GA    Bank robbery gone wrong Financial desperation
            9 2023-09-22       Chicago         IL         Street altercation          Gang-related
           10 2023-10-30   Los Angeles         CA     Movie theater incident  Mental health crisis
           11 2023-11-12       Houston         TX     Shopping mall shooting     Personal conflict
-          12 2016-06-12       Orlando         FL         Nightclub shooting            Hate Crime
+          12 2023-12-25 New York City         NY     Bank hostage situation               Robbery
           13 2024-01-05 San Francisco         CA Tech company office attack  Work-related dispute
           14 2024-02-20     Las Vegas         NV         Casino altercation                  None
           15 2024-03-08      Portland         OR           Protest violence     Political tension
@@ -3545,9 +3547,7 @@ View the source code for this API at the link below.<br>
           17 2023-12-25 New York City         NY    Holiday parade incident             Terrorism
           18 2024-04-18        Boston         MA               Bank robbery Financial desperation
           19 2024-05-30   San Antonio         TX               Bar shooting          Gang-related
-          20 2024-06-22  Philadelphia         PA University campus incident       Student dispute
-          21 2021-05-20     Baltimore         MD              Church attack      Relgious beliefs
-          22 2021-05-20     Baltimore         MD              Church attack      Relgious beliefs</code></pre>
+          20 2024-06-22  Philadelphia         PA University campus incident       Student dispute</code></pre>
 </div>
 </div>
 <p><strong>Get record with id = 10 from the incident table</strong></p>
@@ -3600,12 +3600,12 @@ View the source code for this API at the link below.<br>
               5 Christopher Hill   30 Male Suspected ties to organized crime</code></pre>
 </div>
 </div>
-<p><strong>Get victims/s from incident 9</strong></p>
+<p><strong>Get victims/s from incident 12</strong></p>
 <div class="cell" data-execution_count="5">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make API call based off endpoint</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>endpoint <span class="op">=</span> <span class="ss">f&#39;</span><span class="sc">{</span>BASE_URL<span class="sc">}</span><span class="ss">/incident/9/victims&#39;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>endpoint <span class="op">=</span> <span class="ss">f&#39;</span><span class="sc">{</span>BASE_URL<span class="sc">}</span><span class="ss">/incident/12/victims&#39;</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.get(endpoint)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Conver to JSON and then to DataFrame</span></span>
@@ -3617,10 +3617,13 @@ View the source code for this API at the link below.<br>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.to_string(index<span class="op">=</span><span class="va">False</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code> incident_id  victim_id           name  age    sex   status
-           9         20 Samantha Evans   22 Female Deceased
-           9         21      Zoe Perez   19 Female  Injured
-           9         22   Ethan Rivera   36   Male Survivor</code></pre>
+<pre><code> incident_id  victim_id             name  age    sex   status
+          12         33   Penelope Scott   20 Female  Injured
+          12         34      Xavier Hill   37   Male Survivor
+          12         35    Harper Hughes   34 Female  Injured
+          12         36 Evelyn Rodriguez   29 Female Survivor
+          12         37    Hudson Brooks   33   Male Deceased
+          12         38       Nora Price   26 Female  Injured</code></pre>
 </div>
 </div>
 <p><strong>Get weapon/s used by perpetrator 10</strong></p>
@@ -3659,10 +3662,12 @@ View the source code for this API at the link below.<br>
            4 2023-04-05         Miami         FL         Nightclub shooting                  None
            5 2023-05-20        Denver         CO              Park incident      Domestic dispute
            6 2023-06-12       Seattle         WA  Community center shooting             Terrorism
+           7 2023-07-04       Orlando         FL           Concert shooting                  None
+           8 2023-08-18       Atlanta         GA    Bank robbery gone wrong Financial desperation
            9 2023-09-22       Chicago         IL         Street altercation          Gang-related
           10 2023-10-30   Los Angeles         CA     Movie theater incident  Mental health crisis
           11 2023-11-12       Houston         TX     Shopping mall shooting     Personal conflict
-          12 2016-06-12       Orlando         FL         Nightclub shooting            Hate Crime
+          12 2023-12-25 New York City         NY     Bank hostage situation               Robbery
           13 2024-01-05 San Francisco         CA Tech company office attack  Work-related dispute
           14 2024-02-20     Las Vegas         NV         Casino altercation                  None
           15 2024-03-08      Portland         OR           Protest violence     Political tension
@@ -3670,9 +3675,7 @@ View the source code for this API at the link below.<br>
           17 2023-12-25 New York City         NY    Holiday parade incident             Terrorism
           18 2024-04-18        Boston         MA               Bank robbery Financial desperation
           19 2024-05-30   San Antonio         TX               Bar shooting          Gang-related
-          20 2024-06-22  Philadelphia         PA University campus incident       Student dispute
-          21 2021-05-20     Baltimore         MD              Church attack      Relgious beliefs
-          22 2021-05-20     Baltimore         MD              Church attack      Relgious beliefs</code></pre>
+          20 2024-06-22  Philadelphia         PA University campus incident       Student dispute</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="8">
@@ -3708,10 +3711,12 @@ View the source code for this API at the link below.<br>
            4 2023-04-05         Miami         FL         Nightclub shooting                  None
            5 2023-05-20        Denver         CO              Park incident      Domestic dispute
            6 2023-06-12       Seattle         WA  Community center shooting             Terrorism
+           7 2023-07-04       Orlando         FL           Concert shooting                  None
+           8 2023-08-18       Atlanta         GA    Bank robbery gone wrong Financial desperation
            9 2023-09-22       Chicago         IL         Street altercation          Gang-related
           10 2023-10-30   Los Angeles         CA     Movie theater incident  Mental health crisis
           11 2023-11-12       Houston         TX     Shopping mall shooting     Personal conflict
-          12 2016-06-12       Orlando         FL         Nightclub shooting            Hate Crime
+          12 2023-12-25 New York City         NY     Bank hostage situation               Robbery
           13 2024-01-05 San Francisco         CA Tech company office attack  Work-related dispute
           14 2024-02-20     Las Vegas         NV         Casino altercation                  None
           15 2024-03-08      Portland         OR           Protest violence     Political tension
@@ -3720,9 +3725,7 @@ View the source code for this API at the link below.<br>
           18 2024-04-18        Boston         MA               Bank robbery Financial desperation
           19 2024-05-30   San Antonio         TX               Bar shooting          Gang-related
           20 2024-06-22  Philadelphia         PA University campus incident       Student dispute
-          21 2021-05-20     Baltimore         MD              Church attack      Relgious beliefs
-          22 2021-05-20     Baltimore         MD              Church attack      Relgious beliefs
-          23 2021-05-20     Baltimore         MD              Church attack      Relgious beliefs</code></pre>
+          21 2021-05-20     Baltimore         MD              Church attack      Relgious beliefs</code></pre>
 </div>
 </div>
 </section>
@@ -3755,8 +3758,8 @@ View the source code for this API at the link below.<br>
 <span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.post(endpoint, json<span class="op">=</span>update_incident, headers<span class="op">=</span>headers)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code> incident_id       date    city state_code        description     motive
-          12 2016-06-12 Orlando         FL Nightclub shooting Hate Crime</code></pre>
+<pre><code> incident_id       date          city state_code            description  motive
+          12 2023-12-25 New York City         NY Bank hostage situation Robbery</code></pre>
 </div>
 </div>
 <p><em>Incident table after</em><br>
@@ -3780,7 +3783,7 @@ View the source code for this API at the link below.<br>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>printIncidentTable()</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create variables and store base URL and store token</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>endpoint <span class="op">=</span> <span class="ss">f&#39;</span><span class="sc">{</span>BASE_URL<span class="sc">}</span><span class="ss">/incident/remove/8&#39;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>endpoint <span class="op">=</span> <span class="ss">f&#39;</span><span class="sc">{</span>BASE_URL<span class="sc">}</span><span class="ss">/incident/remove/7&#39;</span></span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Create header to send with request for authorization</span></span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>headers <span class="op">=</span> {<span class="st">&#39;Authorization&#39;</span>: token}</span>
@@ -3796,6 +3799,8 @@ View the source code for this API at the link below.<br>
            4 2023-04-05         Miami         FL         Nightclub shooting                  None
            5 2023-05-20        Denver         CO              Park incident      Domestic dispute
            6 2023-06-12       Seattle         WA  Community center shooting             Terrorism
+           7 2023-07-04       Orlando         FL           Concert shooting                  None
+           8 2023-08-18       Atlanta         GA    Bank robbery gone wrong Financial desperation
            9 2023-09-22       Chicago         IL         Street altercation          Gang-related
           10 2023-10-30   Los Angeles         CA     Movie theater incident  Mental health crisis
           11 2023-11-12       Houston         TX     Shopping mall shooting     Personal conflict
@@ -3808,9 +3813,7 @@ View the source code for this API at the link below.<br>
           18 2024-04-18        Boston         MA               Bank robbery Financial desperation
           19 2024-05-30   San Antonio         TX               Bar shooting          Gang-related
           20 2024-06-22  Philadelphia         PA University campus incident       Student dispute
-          21 2021-05-20     Baltimore         MD              Church attack      Relgious beliefs
-          22 2021-05-20     Baltimore         MD              Church attack      Relgious beliefs
-          23 2021-05-20     Baltimore         MD              Church attack      Relgious beliefs</code></pre>
+          21 2021-05-20     Baltimore         MD              Church attack      Relgious beliefs</code></pre>
 </div>
 </div>
 <p><em>Incident table after</em><br>
@@ -3824,6 +3827,7 @@ View the source code for this API at the link below.<br>
            4 2023-04-05         Miami         FL         Nightclub shooting                  None
            5 2023-05-20        Denver         CO              Park incident      Domestic dispute
            6 2023-06-12       Seattle         WA  Community center shooting             Terrorism
+           8 2023-08-18       Atlanta         GA    Bank robbery gone wrong Financial desperation
            9 2023-09-22       Chicago         IL         Street altercation          Gang-related
           10 2023-10-30   Los Angeles         CA     Movie theater incident  Mental health crisis
           11 2023-11-12       Houston         TX     Shopping mall shooting     Personal conflict
@@ -3836,9 +3840,7 @@ View the source code for this API at the link below.<br>
           18 2024-04-18        Boston         MA               Bank robbery Financial desperation
           19 2024-05-30   San Antonio         TX               Bar shooting          Gang-related
           20 2024-06-22  Philadelphia         PA University campus incident       Student dispute
-          21 2021-05-20     Baltimore         MD              Church attack      Relgious beliefs
-          22 2021-05-20     Baltimore         MD              Church attack      Relgious beliefs
-          23 2021-05-20     Baltimore         MD              Church attack      Relgious beliefs</code></pre>
+          21 2021-05-20     Baltimore         MD              Church attack      Relgious beliefs</code></pre>
 </div>
 </div>
 </section>
