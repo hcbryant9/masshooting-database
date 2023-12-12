@@ -237,13 +237,13 @@ df = pd.DataFrame(load)
 print(df.to_string(index=False))
 ```
 
-**Get victims/s from incident 9**
+**Get victims/s from incident 12**
 ```{python}
 #| eval: true
 #| echo: true
 
 # Make API call based off endpoint
-endpoint = f'{BASE_URL}/incident/9/victims'
+endpoint = f'{BASE_URL}/incident/12/victims'
 response = requests.get(endpoint)
 
 # Conver to JSON and then to DataFrame
